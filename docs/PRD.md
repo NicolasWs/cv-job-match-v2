@@ -96,6 +96,10 @@ Nicolas runs a solo, high-volume job search (PM, AI/Data, Paris and adjacent mar
 - **Deprecated as part of this rebuild:** the existing autonomous "CV Coach" Hermes cron pair (`scan-jobs` + `prep-application`) and its 9.3/10 auto-trigger threshold — folded into the unified Notion-driven flow above.
 - **Carried over unchanged (confirmed in scope to keep, not to modify):** weekly n8n scrape, `find-opportunities` scanning/scoring, `cv-match` scoring and tailoring logic, `write-outreach` cover letter drafting logic, `interview-prep` Q&A/STAR logic, the "never fabricate / never auto-send" hard rules.
 
+### 6.1.a LinkedIn Saved Jobs input path (addendum, NIC-56)
+
+**Addendum, added post-ship (2026-09-11):** in addition to the automated n8n/`find-opportunities` discovery layer (Section 6.1 above), Nicolas can also seed `selected`-status Notion cards from his LinkedIn Saved Jobs list via a manual/semi-automated path: he copies his saved-jobs list from his own already-logged-in browser, reformats it into a small pipe-delimited text file, and runs `scripts/notion_import_saved_jobs.py` against it. The script itself never accesses `linkedin.com` in any form (no browser automation, no session cookies, no scraping) — it only parses the manually-provided text and calls the Notion API, reusing NIC-43's `build_job_page_children()` card-creation shape and NIC-56's own deduplication logic. This is a second, independent input path alongside the n8n discovery layer, not a replacement for it; see `docs/ARCHITECTURE.md`'s "NIC-56" section for full design detail.
+
 ### 6.2 Out of scope
 - Any change to how jobs are discovered or scored before "selected" status.
 - Any UI beyond Notion itself (no new web app, no changes to the existing `app/server.py` local Flask app implied by this PRD unless a future phase decides otherwise).
